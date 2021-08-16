@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Login {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
-  void signInAnonymously() {
-    _auth.signInAnonymously();
+void signInAnonymously() {
+  try {
+    final Future<UserCredential> _auth =
+        FirebaseAuth.instance.signInAnonymously();
+    print("logged in");
+  } catch (e) {
+    print("Error == >${e.toString()})");
   }
 }

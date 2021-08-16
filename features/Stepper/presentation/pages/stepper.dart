@@ -144,9 +144,10 @@ class New extends State<new_user> {
     final selectedChoices =
         choices.where((choice) => choice.selected == true).toList();
     if (_currentStep == 0) {
-      Login().signInAnonymously();
       print("logged in");
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+
+      signInAnonymously();
     } else if (_currentStep == 1) {
       final snackBar = SnackBar(
           content: Text(

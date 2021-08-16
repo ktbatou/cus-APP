@@ -40,11 +40,28 @@ class MyApp extends State<App> {
 
                   // Once complete, show your application
                   if (snapshot.connectionState == ConnectionState.done) {
-                    print("initialized");
-                    return MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      home: Scaffold(body: new_user()),
-                    );
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    var user = auth.currentUser;
+
+                    if (user != null) {
+                      //User user = snapshot.data; // this is your user instance
+                      /// is because there is user already logged
+                      /*return MaterialApp(
+                          debugShowCheckedModeBanner: false,
+                          home: Container(
+                              child: Text(
+                            "TEST",
+                            style: TextStyle(color: Colors.white),
+                          )));
+                    }
+
+                    /// other way there is no user logged.
+                    else {*/
+                      return MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        home: Scaffold(body: new_user()),
+                      );
+                    }
                   }
                   return Container();
                 });
