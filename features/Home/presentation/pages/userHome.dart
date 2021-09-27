@@ -1,28 +1,28 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import '../../../Stepper/data/database.dart';
 import '../../../../core/elements.dart';
-
+import 'package:provider/provider.dart';
 import 'package:my_app/features/Home/presentation/widgets/drwer.dart';
 import 'homePgae.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 
 class UserHome extends StatefulWidget {
-  List<Elements> elements;
-  String choice;
-  UserHome(this.choice, this.elements);
+  String uid;
+
+  UserHome(this.uid);
   @override
-  State<StatefulWidget> createState() => HomeUser(choice, elements);
+  State<StatefulWidget> createState() => HomeUser(uid);
 }
 
 class HomeUser extends State<StatefulWidget> {
-  String selected;
-  List<Elements> tranMode;
+  String uid;
   double imageSize = 80;
   double iconSize = 40;
   double bar = 80;
   double pad = 20;
-  HomeUser(this.selected, this.tranMode);
+  HomeUser(this.uid);
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +43,13 @@ class HomeUser extends State<StatefulWidget> {
     }
     BottomBarController? _tabController;
     final _drawerController = ZoomDrawerController();
-
+   ;
     return Scaffold(
         body: ZoomDrawer(
             controller: _drawerController,
-            menuScreen: Settings(),
+            menuScreen: Setting(),
             mainScreen: DefaultBottomBarController(
-                child: Example(selected, tranMode, _drawerController)),
+                child: Example(uid, _drawerController)),
             borderRadius: 24.0,
             showShadow: true,
             angle: 0.0,

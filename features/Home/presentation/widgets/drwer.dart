@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class Settings extends StatefulWidget {
+class Setting extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => Setting();
+  State<StatefulWidget> createState() => _Setting();
 }
 
-class Setting extends State<Settings> {
+class _Setting extends State<Setting> {
   final List _item = [
     'Mes Modes de Transport',
     'Instructions',
@@ -63,9 +63,9 @@ class Setting extends State<Settings> {
                       child: ListTile(
                           title: Text("Mes Modes de Transport",
                               style: TextStyle(
-                                color: Colors.black, //(0xff002466),
+                                color: Color(0xff002466), //(0xff002466),
                                 fontFamily: 'poppins-Light',
-                                fontSize: 16,
+                                fontSize: 18,
                               )),
                           leading: Icon(Icons.emoji_transportation_outlined,
                               color: Color(0xff35a687))), //(0xff52B69A))),
@@ -75,9 +75,9 @@ class Setting extends State<Settings> {
                         child: ListTile(
                             title: Text("language",
                                 style: TextStyle(
-                                  color: Colors.black, //(0xff002466),
+                                  color: Color(0xff002466), //(0xff002466),
                                   fontFamily: 'poppins-Light',
-                                  fontSize: 17,
+                                  fontSize: 18,
                                 )),
                             leading: Icon(Icons.language,
                                 color: Color(
@@ -87,9 +87,9 @@ class Setting extends State<Settings> {
                         child: ListTile(
                             title: Text("Instractions",
                                 style: TextStyle(
-                                  color: Colors.black, //(0xff002466),
+                                  color: Color(0xff002466), //(0xff002466),
                                   fontFamily: 'poppins-Light',
-                                  fontSize: 17,
+                                  fontSize: 18,
                                 )),
                             leading: Icon(Icons.menu_book,
                                 color: Color(0xff35a687))), //(0xff52B69A)),
@@ -111,7 +111,7 @@ class Setting extends State<Settings> {
                   alignment: Alignment.center,
                   child: Text("À PROPOS ",
                       style: TextStyle(
-                        color: Colors.black, //(0xff002466),
+                        color: Color(0xff002466), //(0xff002466),
                         fontFamily: 'poppins-Light',
                         fontSize: 15,
                       )),

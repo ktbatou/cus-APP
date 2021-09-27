@@ -31,7 +31,7 @@ class StepOne extends State<First> {
                   ))),
           Container(
               padding: EdgeInsets.only(top: 3),
-              child: Align(
+                                             child: Align(
                   alignment: Alignment.center,
                   child: Text("(Nom)",
                       style: TextStyle(

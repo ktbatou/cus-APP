@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/Stepper/presentation/widgets/thirdStep.dart';
@@ -7,7 +9,10 @@ import '../widgets/firstStep.dart';
 import '../widgets/secondStep.dart';
 import '../widgets/actions.dart';
 import '../widgets/thirdStep.dart';
-import '../../data/loginAno.dart';
+import '../../data/auth.dart';
+import '../../data/database.dart';
+import 'dart:async';
+import '../../data/list.dart';
 
 class new_user extends StatefulWidget {
   @override
@@ -19,6 +24,7 @@ class New extends State<new_user> {
   double iconSize = 40;
   double bar = 80;
   double pad = 20;
+  dynamic result;
 
   List<Elements> choices = [
     Elements(key: "Voiture", selected: false, icon: Icons.directions_car),
@@ -54,6 +60,12 @@ class New extends State<new_user> {
       bar = 80;
       pad = 10;
     }
+
+    //FIXME: testing new choices function
+    // List<Elements> newChoices = getList(["moto", "velo"]);
+    //  print(newChoices);
+    //************************************************ */
+
     Color cooler = Color(0xff35a687).withOpacity(0.8);
     return Container(
         decoration: BoxDecoration(
@@ -140,14 +152,24 @@ class New extends State<new_user> {
     setState(() => _currentStep = step);
   }
 
-  continued() {
+  continued() async {
     final selectedChoices =
         choices.where((choice) => choice.selected == true).toList();
-    if (_currentStep == 0) {
-      print("logged in");
-      _currentStep < 2 ? setState(() => _currentStep += 1) : null;
 
-      signInAnonymously();
+    if (_currentStep == 0) {
+      //TODO: error management if the login went off
+
+      result = await signInAnonymous();
+      //    print(result.uid);
+
+      if (result == null) {
+        print('error signing in');
+      } else {
+        print('sign in ');
+        print(result.uid);
+        // UserDatabase(result.uid).transDoc(["test1"]);
+      }
+      _currentStep < 2 ? setState(() => _currentStep += 1) : null;
     } else if (_currentStep == 1) {
       final snackBar = SnackBar(
           content: Text(
@@ -162,14 +184,17 @@ class New extends State<new_user> {
 
       if (selectedChoices.isEmpty)
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      else
+      else {
+        List<String> choices = selectedChoices.map((e) => e.key).toList();
+        //  print(choices);
+        await UserDatabase(result.uid).transDoc(choices);
+
         _currentStep < 2 ? setState(() => _currentStep += 1) : null;
+      }
     } else if (_currentStep == 2) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(
-              builder: (context) => UserHome(
-                  "Vous n'avez pas encore choisir de mode!", selectedChoices)),
+          MaterialPageRoute(builder: (context) =>  UserHome(result.uid)),
           (Route<dynamic> route) => false);
     } else
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;

@@ -105,6 +105,7 @@ class MapPageState extends State<MapPage> {
             child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 child: GoogleMap(
+                  
                     myLocationButtonEnabled: true,
                     myLocationEnabled: true,
                     compassEnabled: true,

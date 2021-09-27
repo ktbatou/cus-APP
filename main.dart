@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/features/Home/presentation/pages/userHome.dart';
 import '../opening.dart';
 import 'features/Stepper/presentation/pages/stepper.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'features/Stepper/data/auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,30 +41,28 @@ class MyApp extends State<App> {
                   }
 
                   // Once complete, show your application
-                  if (snapshot.connectionState == ConnectionState.done) {
+                  else if (snapshot.connectionState == ConnectionState.done) {
                     final FirebaseAuth auth = FirebaseAuth.instance;
                     var user = auth.currentUser;
 
                     if (user != null) {
-                      //User user = snapshot.data; // this is your user instance
+                      String uid = getUser(user)!.uid;
+                      // this is your user instance
                       /// is because there is user already logged
-                      /*return MaterialApp(
+                      return MaterialApp(
                           debugShowCheckedModeBanner: false,
-                          home: Container(
-                              child: Text(
-                            "TEST",
-                            style: TextStyle(color: Colors.white),
-                          )));
+                          home: UserHome(uid));
                     }
 
                     /// other way there is no user logged.
-                    else {*/
+                    else {
                       return MaterialApp(
                         debugShowCheckedModeBanner: false,
                         home: Scaffold(body: new_user()),
                       );
                     }
                   }
+
                   return Container();
                 });
           }

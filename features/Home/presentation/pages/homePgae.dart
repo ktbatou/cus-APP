@@ -4,19 +4,21 @@ import '../../../../core/elements.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 
+import '../data/repositories/dataGetter.dart';
+
 class Example extends StatefulWidget {
   final zoomDraw;
-  List<Elements> elements;
-  String choice;
-  Example(this.choice, this.elements, this.zoomDraw);
+
+  String uid;
+
+  Example(this.uid, this.zoomDraw);
   @override
-  State<StatefulWidget> createState() =>
-      ExamplePage(choice, elements, zoomDraw);
+  State<StatefulWidget> createState() => ExamplePage(uid: uid, draw: zoomDraw);
 }
 
 class ExamplePage extends State<StatefulWidget> {
-  List<Elements> elements;
-  String choice;
+  String? uid;
+  String choice = "Vous n'avez pas encore choisir de mode!";
   String button = "Choisir un mode";
   double imageSize = 80;
   double iconSize = 40;
@@ -25,10 +27,7 @@ class ExamplePage extends State<StatefulWidget> {
   double size = 15;
   IconData? icon;
   final draw;
-  ExamplePage(String choice, List<Elements> elements, final draw)
-      : this.choice = choice,
-        this.elements = elements,
-        this.draw = draw;
+  ExamplePage({this.uid, this.draw});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +45,6 @@ class ExamplePage extends State<StatefulWidget> {
       bar = 80;
       pad = 10;
     }
-
     return Scaffold(
         backgroundColor: Colors.white,
         extendBody: true,
@@ -144,70 +142,45 @@ class ExamplePage extends State<StatefulWidget> {
             expandedBackColor: Colors.transparent,
             expandedBody: Center(
               child: GlassmorphicContainer(
-                  height: heightSize * 0.5 + heightSize * 0.05,
-                  width: widthSize * 0.95,
-                  borderRadius: 20,
-                  blur: 7,
-                  alignment: Alignment.bottomCenter,
-                  border: 1,
-                  linearGradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xff52B69A).withOpacity(0.09),
-                        Color(0xff52B69A).withOpacity(0.1),
-                      ],
-                      stops: [
-                        0.1,
-                        1,
-                      ]),
-                  borderGradient: LinearGradient(
+                height: heightSize * 0.5 + heightSize * 0.05,
+                width: widthSize * 0.95,
+                borderRadius: 20,
+                blur: 7,
+                alignment: Alignment.bottomCenter,
+                border: 1,
+                linearGradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                     colors: [
-                      Colors.white.withOpacity(0.05),
-                      Colors.white.withOpacity(0.5),
+                      Color(0xff52B69A).withOpacity(0.09),
+                      Color(0xff52B69A).withOpacity(0.1),
                     ],
-                  ),
-                  child: Container(
-                      padding: EdgeInsets.only(
-                        top: heightSize * 0.05,
-                      ),
-                      child: ListView.separated(
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: 10,
-                            );
-                          },
-                          itemCount: elements.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Material(
-                                color: Colors.transparent,
-                                child: InkWell(
-                                  child: ListTile(
-                                    title: Text("${elements[index].key}",
-                                        style: TextStyle(
-                                          color: Color(0xff002466),
-                                          fontFamily: 'poppins-Light',
-                                          fontSize: 20,
-                                        )),
-                                    leading: Icon(
-                                      elements[index].icon,
-                                      color: Color(0xff35a687), //s.black),
-                                    ),
-                                    onTap: () {
-                                      setState(() {
-                                        size = 17;
-                                        button = "Changer de mode";
-                                        choice = elements[index].key;
-                                        icon = elements[index].icon;
-                                        DefaultBottomBarController.of(context)
-                                            .swap();
-                                      });
-                                    },
-                                  ),
-                                ));
-                          }))),
+                    stops: [
+                      0.1,
+                      1,
+                    ]),
+                borderGradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white.withOpacity(0.05),
+                    Colors.white.withOpacity(0.5),
+                  ],
+                ),
+                child: GetUserData(
+                  documentId: uid!,
+                  stateChnage: (int index, List<Elements> elements) {
+                    setState(() {
+                      size = 17;
+                      button = "Changer de mode";
+                      choice = elements[index].key;
+                      icon = elements[index].icon;
+                      DefaultBottomBarController.of(context).swap();
+                    });
+                  },
+                  heightSize: heightSize,
+                ),
+              ),
             ),
             bottomAppBarBody: Padding(
               padding: const EdgeInsets.all(8.0),
