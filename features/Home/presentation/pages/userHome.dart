@@ -43,11 +43,13 @@ class HomeUser extends State<StatefulWidget> {
     }
     BottomBarController? _tabController;
     final _drawerController = ZoomDrawerController();
-   ;
+    ;
     return Scaffold(
         body: ZoomDrawer(
             controller: _drawerController,
-            menuScreen: Setting(),
+            menuScreen: Setting(
+              uid: uid,
+            ),
             mainScreen: DefaultBottomBarController(
                 child: Example(uid, _drawerController)),
             borderRadius: 24.0,

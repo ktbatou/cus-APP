@@ -47,6 +47,7 @@ class MyApp extends State<App> {
 
                     if (user != null) {
                       String uid = getUser(user)!.uid;
+                      print("==============> This is user $uid");
                       // this is your user instance
                       /// is because there is user already logged
                       return MaterialApp(

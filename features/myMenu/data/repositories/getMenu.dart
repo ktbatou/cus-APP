@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:my_app/features/Home/presentation/widgets/ModeMenu.dart';
+import 'package:my_app/features/myMenu/presentation/widgets/MenuList.dart';
 import '/../../../core/elements.dart';
-import 'Converter.dart';
+import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
+import '../../presentation/pages/MyMenu.dart';
 import 'dart:async';
 
-class GetUserData extends StatelessWidget {
-  final String documentId;
-  final Function stateChnage;
-  var heightSize;
+class GetMenu extends StatelessWidget {
+  String documentId;
+  double HeightSize;
+  var widthSize;
 
-  GetUserData(
-      {required this.documentId, required this.stateChnage, this.heightSize});
+  GetMenu(
+      {required this.documentId,
+      required this.HeightSize,
+      required this.widthSize});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +37,10 @@ class GetUserData extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           List<Elements> choices = converter(data['choices']);
-          return TransMenu(
-            changeState: stateChnage,
+          return MenuList(
             elems: choices,
-            heightSize: heightSize,
+            heightSize: HeightSize,
+            widthSize: widthSize,
           );
         }
 

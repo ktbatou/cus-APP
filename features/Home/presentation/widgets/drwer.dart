@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/features/myMenu/data/repositories/getMenu.dart';
+import 'package:my_app/features/myMenu/presentation/pages/MyMenu.dart';
 
 class Setting extends StatefulWidget {
+  String uid;
+  Setting({required this.uid});
   @override
-  State<StatefulWidget> createState() => _Setting();
+  State<StatefulWidget> createState() => _Setting(id: uid);
 }
 
 class _Setting extends State<Setting> {
@@ -16,7 +20,8 @@ class _Setting extends State<Setting> {
     'menu_book_outlined'
         'language'
   ];
-
+  String id;
+  _Setting({required this.id});
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
@@ -69,7 +74,13 @@ class _Setting extends State<Setting> {
                               )),
                           leading: Icon(Icons.emoji_transportation_outlined,
                               color: Color(0xff35a687))), //(0xff52B69A))),
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyModes(uid: id),
+                            ));
+                      },
                     ),
                     InkWell(
                         child: ListTile(
