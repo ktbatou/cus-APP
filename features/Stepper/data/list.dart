@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/map/presentation/widgets/map.dart';
 import 'package:flutter/material.dart';
@@ -24,4 +25,15 @@ List<Elements> getList(List<String> choices) {
     newChoices.add(choice);
   });
   return newChoices;
+}
+
+List<Elements> allList(List<Elements> selected) {
+  List<Elements> allChoices = AllChoices();
+  int i = 0;
+  allChoices.forEach((element) {
+    if (element.key == selected[i++].key) {
+      element.selected = true;
+    }
+  });
+  return allChoices;
 }

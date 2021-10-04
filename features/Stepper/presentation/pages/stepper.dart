@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:my_app/core/elements.dart';
+import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/features/Stepper/presentation/widgets/thirdStep.dart';
 import 'dart:io';
 import '../../../Home/presentation/pages/userHome.dart';
@@ -26,22 +27,7 @@ class New extends State<new_user> {
   double pad = 20;
   dynamic result;
 
-  List<Elements> choices = [
-    Elements(key: "Voiture", selected: false, icon: Icons.directions_car),
-    Elements(key: "Velo", selected: false, icon: Icons.directions_bike_rounded),
-    Elements(key: "Moto", selected: false, icon: Icons.motorcycle_outlined),
-    Elements(
-        key: "Bus",
-        selected: false,
-        icon: Icons.directions_bus_filled_outlined),
-    Elements(
-        key: "MiniBus", selected: false, icon: Icons.directions_bus_filled),
-    Elements(key: "Tram", selected: false, icon: Icons.tram_outlined),
-    Elements(key: "Train", selected: false, icon: Icons.directions_railway),
-    Elements(key: "Courire", selected: false, icon: Icons.directions_run_sharp),
-    Elements(
-        key: "Marcher", selected: false, icon: Icons.directions_walk_outlined),
-  ];
+  List<Elements> choices = AllChoices();
   int _currentStep = 0;
   var stepperType = StepperType.vertical;
   @override
@@ -60,12 +46,6 @@ class New extends State<new_user> {
       bar = 80;
       pad = 10;
     }
-
-    //FIXME: testing new choices function
-    // List<Elements> newChoices = getList(["moto", "velo"]);
-    //  print(newChoices);
-    //************************************************ */
-
     Color cooler = Color(0xff35a687).withOpacity(0.8);
     return Container(
         decoration: BoxDecoration(
@@ -194,7 +174,7 @@ class New extends State<new_user> {
     } else if (_currentStep == 2) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) =>  UserHome(result.uid)),
+          MaterialPageRoute(builder: (context) => UserHome(result.uid)),
           (Route<dynamic> route) => false);
     } else
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;

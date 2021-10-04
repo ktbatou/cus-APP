@@ -15,10 +15,21 @@ class _MyModesState extends State<MyModes> {
   String uid;
 
   _MyModesState({required this.uid});
+  var left = 0.02;
+  var right = 0.025;
+  double top = 0;
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
     double WidthtSize = MediaQuery.of(context).size.width;
+    if (MediaQuery.of(context).size.width > 600) {
+      left = 0.01;
+      right = left;
+      top = 0.02;
+    } else {
+      left = 0.02;
+      right = 0.025;
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -36,27 +47,25 @@ class _MyModesState extends State<MyModes> {
                   ),
                 )),
           ],
-          leading: Builder(builder: (BuildContext context) {
-            return Container(
-                height: 10,
-                width: 10,
-                padding: EdgeInsets.only(
-                    //TODO: when there is rottaion left & right : 0.01 ... top 0.02
-                    left: WidthtSize * 0.02,
-                    right: WidthtSize * 0.025,
-                    top: 0),
-                child: CircleAvatar(
-                    backgroundColor: Color(0xff35A687),
-                    child: IconButton(
-                      icon: Icon(
-                        Icons.arrow_back_rounded,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    )));
-          })),
+          leading: Container(
+              height: 10,
+              width: 10,
+              padding: EdgeInsets.only(
+                //TODO: when there is rottaion left & right : 0.01 ... top 0.02
+                left: WidthtSize * left,
+                right: WidthtSize * right,
+              ),
+              child: CircleAvatar(
+                  backgroundColor: Color(0xff35A687),
+                  child: IconButton(
+                    icon: Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  )))),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
