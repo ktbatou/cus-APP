@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/core/elements.dart';
@@ -27,13 +29,15 @@ List<Elements> getList(List<String> choices) {
   return newChoices;
 }
 
-List<Elements> allList(List<Elements> selected) {
+List<Elements> mergedList(List<Elements> selected) {
   List<Elements> allChoices = AllChoices();
-  int i = 0;
+
   allChoices.forEach((element) {
-    if (element.key == selected[i++].key) {
-      element.selected = true;
-    }
+    selected.forEach((e) {
+      if (e.key == element.key) {
+        element.selected = true;
+      }
+    });
   });
   return allChoices;
 }

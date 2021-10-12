@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:my_app/features/Stepper/data/list.dart';
 import 'package:my_app/features/myMenu/presentation/widgets/MenuList.dart';
 import '/../../../core/elements.dart';
 import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
@@ -10,11 +11,14 @@ class GetMenu extends StatelessWidget {
   String documentId;
   double HeightSize;
   var widthSize;
+  bool clicked;
 
-  GetMenu(
-      {required this.documentId,
-      required this.HeightSize,
-      required this.widthSize});
+  GetMenu({
+    required this.documentId,
+    required this.HeightSize,
+    required this.widthSize,
+    required this.clicked,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +42,11 @@ class GetMenu extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
           List<Elements> choices = converter(data['choices']);
           return MenuList(
-            elems: choices,
-            heightSize: HeightSize,
-            widthSize: widthSize,
-          );
+              elems: choices,
+              heightSize: HeightSize,
+              widthSize: widthSize,
+              clicked: clicked,
+              id: documentId);
         }
 
         return Container(

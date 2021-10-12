@@ -103,7 +103,7 @@ class ExamplePage extends State<StatefulWidget> {
                   color: Color(0xff002466),
                   height: 0.5,
                 ),
-                MapPage(heightSize, widthSize),
+                // MapPage(heightSize, widthSize),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

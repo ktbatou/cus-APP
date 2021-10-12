@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_app/core/elements.dart';
 import '/features/Stepper/data/list.dart';
 

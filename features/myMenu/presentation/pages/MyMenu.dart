@@ -18,6 +18,8 @@ class _MyModesState extends State<MyModes> {
   var left = 0.02;
   var right = 0.025;
   double top = 0;
+  String action = "Edit";
+  bool _clicked = false;
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
@@ -30,6 +32,18 @@ class _MyModesState extends State<MyModes> {
       left = 0.02;
       right = 0.025;
     }
+    void chnager() {
+      setState(() {
+        _clicked = !_clicked;
+        if (_clicked == true) {
+          action = "Done";
+        } else {
+          action = "Edit";
+          print("done");
+        }
+      });
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -41,9 +55,19 @@ class _MyModesState extends State<MyModes> {
                 alignment: Alignment.center,
                 child: Container(
                   padding: EdgeInsets.only(right: 29),
-                  child: Text(
-                    "Edit",
-                    style: TextStyle(color: Color(0xff35A687), fontSize: 20),
+                  child: Material(
+                    child: InkWell(
+                      hoverColor: Colors.transparent,
+                      child: Text(
+                        //TODO: if clicked change Edit To Done & a boolean true if clicked
+                        action,
+                        style:
+                            TextStyle(color: Color(0xff35A687), fontSize: 20),
+                      ),
+                      onTap: () {
+                        chnager();
+                      },
+                    ),
                   ),
                 )),
           ],
@@ -85,6 +109,7 @@ class _MyModesState extends State<MyModes> {
               documentId: uid,
               HeightSize: heightSize,
               widthSize: WidthtSize,
+              clicked: _clicked,
             ),
           ),
         ],

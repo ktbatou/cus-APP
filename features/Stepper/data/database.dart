@@ -16,6 +16,12 @@ class UserDatabase {
     });
   }
 
+  Future UpdatetransDoc(List selected) async {
+    return await firestoreInstance.doc(uid).update({
+      "choices": FieldValue.arrayUnion(selected),
+    });
+  }
+
   Future<List<Elements>> modeList() async {
     List choices = [];
     List<Elements> result;
@@ -25,4 +31,5 @@ class UserDatabase {
     result = converter(choices);
     return result;
   }
+
 }
