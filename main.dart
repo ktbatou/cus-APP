@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/features/Home/presentation/pages/userHome.dart';
+import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
+import 'package:provider/provider.dart';
 import '../opening.dart';
 import 'features/Stepper/presentation/pages/stepper.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,7 +10,12 @@ import 'features/Stepper/data/auth.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(App());
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider(create: (context) => ListState())],
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatefulWidget {
@@ -28,7 +35,9 @@ class MyApp extends State<App> {
           // Show splash screen while waiting for app resources to load:
           if (snapshot.connectionState == ConnectionState.waiting) {
             return MaterialApp(
-                debugShowCheckedModeBanner: false, home: Splash());
+              debugShowCheckedModeBanner: false,
+              home: Splash(),
+            );
           } else {
             // Loading is done, return the app:
             return FutureBuilder(

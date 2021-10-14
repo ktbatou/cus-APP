@@ -19,8 +19,10 @@ class _transMenuState extends State<TransMenu> {
   final Function state;
   _transMenuState(
       {required this.state, required this.elements, this.heightSize});
+
   @override
   Widget build(BuildContext context) {
+    print(elements);
     return Container(
         padding: EdgeInsets.only(
           top: heightSize * 0.05,

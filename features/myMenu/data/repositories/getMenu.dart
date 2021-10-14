@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:my_app/features/Stepper/data/list.dart';
+import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
 import 'package:my_app/features/myMenu/presentation/widgets/MenuList.dart';
 import '/../../../core/elements.dart';
 import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
 import '../../presentation/pages/MyMenu.dart';
 import 'dart:async';
+import 'package:provider/provider.dart';
 
 class GetMenu extends StatelessWidget {
   String documentId;
@@ -24,7 +26,6 @@ class GetMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     CollectionReference users =
         FirebaseFirestore.instance.collection('modeOfTrans');
-
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(documentId).get(),
       builder:
@@ -38,15 +39,12 @@ class GetMenu extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-          List<Elements> choices = converter(data['choices']);
+          
           return MenuList(
-              elems: choices,
               heightSize: HeightSize,
               widthSize: widthSize,
               clicked: clicked,
-              id: documentId);
+              id: documentId,);
         }
 
         return Container(

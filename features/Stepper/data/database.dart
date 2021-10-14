@@ -16,20 +16,24 @@ class UserDatabase {
     });
   }
 
-  Future UpdatetransDoc(List selected) async {
-    return await firestoreInstance.doc(uid).update({
-      "choices": FieldValue.arrayUnion(selected),
+  Future<void> UpdatetransDoc(List<Elements> selected) async {
+    final selectedChoices =
+        selected.where((choice) => choice.selected == true).toList();
+    List<String> newList = selectedChoices.map((e) => e.key).toList();
+    print("update the data with: $newList");
+
+    return await firestoreInstance.doc(uid).set({
+      "choices": FieldValue.arrayUnion(newList),
     });
   }
 
   Future<List<Elements>> modeList() async {
     List choices = [];
     List<Elements> result;
-   await firestoreInstance.doc(uid).get().then((value)  {
-      choices =  value.data()!['choices'];
+    await firestoreInstance.doc(uid).get().then((value) {
+      choices = value.data()!['choices'];
     });
     result = converter(choices);
     return result;
   }
-
 }

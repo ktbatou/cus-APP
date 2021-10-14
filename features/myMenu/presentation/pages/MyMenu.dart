@@ -1,7 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/core/elements.dart';
+import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
 import 'package:my_app/features/Home/presentation/widgets/ModeMenu.dart';
+import 'package:my_app/features/Stepper/data/list.dart';
 import 'package:my_app/features/myMenu/data/repositories/getMenu.dart';
+import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
+import 'package:my_app/features/myMenu/presentation/widgets/MenuList.dart';
+import 'package:my_app/features/Stepper/data/database.dart';
+import 'package:provider/provider.dart';
 
 class MyModes extends StatefulWidget {
   String uid;
@@ -14,12 +22,35 @@ class MyModes extends StatefulWidget {
 class _MyModesState extends State<MyModes> {
   String uid;
 
+  @override
+  void initState() {
+    super.initState();
+    initData();
+  }
+
+  void initData() async {
+    Map<String, dynamic>? data = await FirebaseFirestore.instance
+        .collection('modeOfTrans')
+        .doc(uid)
+        .get()
+        .then((value) => value.data());
+
+    if (data != null) {
+      List<Elements> choices = converter(data['choices']);
+      choices = mergedList(choices);
+      WidgetsBinding.instance?.addPostFrameCallback((_) {
+        Provider.of<ListState>(context, listen: false).addToMenuList(choices);
+      });
+    }
+  }
+
   _MyModesState({required this.uid});
   var left = 0.02;
   var right = 0.025;
   double top = 0;
   String action = "Edit";
-  bool _clicked = false;
+  bool clicked = false;
+  List<Elements> choicesList = AllChoices();
   @override
   Widget build(BuildContext context) {
     double heightSize = MediaQuery.of(context).size.height;
@@ -32,16 +63,20 @@ class _MyModesState extends State<MyModes> {
       left = 0.02;
       right = 0.025;
     }
-    void chnager() {
+    void changer() async {
       setState(() {
-        _clicked = !_clicked;
-        if (_clicked == true) {
+        clicked = !clicked;
+        if (clicked == true) {
           action = "Done";
         } else {
           action = "Edit";
           print("done");
         }
       });
+      if (clicked == false) {
+        await UserDatabase(uid).UpdatetransDoc(
+            Provider.of<ListState>(context, listen: false).menuList);
+      }
     }
 
     return Scaffold(
@@ -65,7 +100,9 @@ class _MyModesState extends State<MyModes> {
                             TextStyle(color: Color(0xff35A687), fontSize: 20),
                       ),
                       onTap: () {
-                        chnager();
+                        //final userList = Provider.of<ListState>(context);
+                        //userList.MenuList = choicesList;
+                        changer();
                       },
                     ),
                   ),
@@ -105,11 +142,11 @@ class _MyModesState extends State<MyModes> {
                         fontSize: 20,
                       )))),
           Expanded(
-            child: GetMenu(
-              documentId: uid,
-              HeightSize: heightSize,
+            child: MenuList(
+              heightSize: heightSize,
               widthSize: WidthtSize,
-              clicked: _clicked,
+              clicked: clicked,
+              id: uid,
             ),
           ),
         ],

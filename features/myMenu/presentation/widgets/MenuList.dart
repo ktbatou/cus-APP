@@ -3,108 +3,103 @@ import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/Stepper/data/database.dart';
 import 'package:my_app/features/Stepper/data/list.dart';
+import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
+import 'package:provider/provider.dart';
 
 class MenuList extends StatefulWidget {
   var heightSize;
   var widthSize;
-  List<Elements> elems;
   bool clicked;
   String id;
   MenuList(
-      {required this.elems,
-      this.heightSize,
+      {this.heightSize,
       required this.widthSize,
       required this.clicked,
       required this.id});
 
   @override
-  _listState createState() => _listState(
-      choosen: elems,
-      heightSize: heightSize,
-      widthSize: widthSize,
-      clicked: clicked,
-      uid: id);
+  _listState createState() {
+    print("clicked from state: $clicked");
+    return _listState(heightSize: heightSize, widthSize: widthSize, uid: id);
+  }
 }
 
 class _listState extends State<MenuList> {
   var heightSize;
   var widthSize;
-  bool clicked;
-  List<Elements> choosen;
+
   String uid;
-  late List<Elements> _allChoices;
 
-  _listState(
-      {required this.choosen,
-      this.heightSize,
-      required this.widthSize,
-      required this.clicked,
-      required this.uid});
+  _listState({this.heightSize, required this.widthSize, required this.uid});
 
+  bool get clicked => widget.clicked;
   @override
   void initState() {
     super.initState();
-    _allChoices = mergedList(choosen);
-  }
-
-  void display(var list) {
-    for (Elements e in list) print("Object: ${e.selected}, ${e.key}");
+    print("clicked from initState: $clicked");
   }
 
   @override
   Widget build(BuildContext context) {
+    print("clicked: ${widget.clicked}");
+
     return Container(
-        padding: EdgeInsets.only(
-          top: heightSize * 0.03,
-        ),
-        child: ListView.separated(
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 1,
-              );
-            },
-            itemCount: _allChoices.length,
-            itemBuilder: (BuildContext context, int index) {
-              return (!clicked && !_allChoices[index].selected)
-                  ? SizedBox()
-                  : Container(
-                      padding: EdgeInsets.only(left: widthSize * 0.02),
-                      child: ListTile(
-                        title: Text("${(_allChoices[index].key)}",
-                            style: TextStyle(
-                              color: Color(0xff002466),
-                              fontFamily: 'poppins-Light',
-                              fontSize: 20,
-                            )),
-                        leading: Icon(
-                          _allChoices[index].icon,
-                          color: Color(0xff35a687), //s.black),
-                        ),
-                        trailing: clicked == true
-                            ? ((_allChoices[index].selected == true)
-                                ? IconButton(
-                                    splashColor: Colors.transparent,
-                                    highlightColor: Colors.transparent,
-                                    color: Colors.red,
-                                    icon: Icon(Icons.remove),
-                                    onPressed: () {
-                                      setState(() {
-                                        _allChoices[index].selected = false;
-                                      });
-                                    },
-                                  )
-                                : IconButton(
-                                    color: Colors.blue,
-                                    icon: Icon(Icons.add),
-                                    onPressed: () {
-                                      print(index);
-                                      setState(() {
-                                        _allChoices[index].selected = true;
-                                      });
-                                    }))
-                            : null,
-                      ),
-                    );
-            }));
+      padding: EdgeInsets.only(
+        top: heightSize * 0.03,
+      ),
+      child: ListView.separated(
+        separatorBuilder: (BuildContext context, int index) {
+          return SizedBox(
+            height: 1,
+          );
+        },
+        itemCount: context.watch<ListState>().menuList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return (!clicked &&
+                  !context.watch<ListState>().menuList[index].selected)
+              ? SizedBox()
+              : Container(
+                  padding: EdgeInsets.only(left: widthSize * 0.02),
+                  child: ListTile(
+                    title: Text(
+                        "${(context.watch<ListState>().menuList[index].key)}",
+                        style: TextStyle(
+                          color: Color(0xff002466),
+                          fontFamily: 'poppins-Light',
+                          fontSize: 20,
+                        )),
+                    leading: Icon(
+                      context.watch<ListState>().menuList[index].icon,
+                      color: Color(0xff35a687), //s.black),
+                    ),
+                    trailing: clicked == true
+                        ? ((context
+                                    .watch<ListState>()
+                                    .menuList[index]
+                                    .selected ==
+                                true)
+                            ? IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                color: Colors.red,
+                                icon: Icon(Icons.remove),
+                                onPressed: () {
+                                  Provider.of<ListState>(context, listen: false)
+                                      .changeSelectedStatus(index, false);
+                                },
+                              )
+                            : IconButton(
+                                color: Colors.blue,
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  Provider.of<ListState>(context, listen: false)
+                                      .changeSelectedStatus(index, true);
+                                }))
+                        : null,
+                  ),
+                );
+        },
+      ),
+    );
   }
 }
