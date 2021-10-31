@@ -15,7 +15,6 @@ Future signInAnonymous() async {
     User? user = result.user;
     return getUser(user!);
   } catch (e) {
-    print(e.toString());
     return null;
   }
 }

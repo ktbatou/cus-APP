@@ -1,19 +1,15 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/features/Stepper/presentation/widgets/thirdStep.dart';
 import 'dart:io';
-import '../../../Home/presentation/pages/userHome.dart';
+import '../../../Home/presentation/pages/ZoomDrawer.dart';
 import '../widgets/firstStep.dart';
 import '../widgets/secondStep.dart';
 import '../widgets/actions.dart';
 import '../widgets/thirdStep.dart';
 import '../../data/auth.dart';
 import '../../data/database.dart';
-import 'dart:async';
-import '../../data/list.dart';
 
 class new_user extends StatefulWidget {
   @override
@@ -146,7 +142,7 @@ class New extends State<new_user> {
         print('error signing in');
       } else {
         print('sign in ');
-        print(result.uid);
+     
         // UserDatabase(result.uid).transDoc(["test1"]);
       }
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;
@@ -174,7 +170,7 @@ class New extends State<new_user> {
     } else if (_currentStep == 2) {
       Navigator.pushAndRemoveUntil(
           context,
-          MaterialPageRoute(builder: (context) => UserHome(result.uid)),
+          MaterialPageRoute(builder: (context) => ZoomDraw(result.uid)),
           (Route<dynamic> route) => false);
     } else
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;

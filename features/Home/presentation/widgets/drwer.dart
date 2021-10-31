@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/features/language/data/appLocalization.dart';
+import 'package:my_app/features/language/data/provider/languageProvider.dart';
+import 'package:my_app/features/language/presentation/pages/language.dart';
 import 'package:my_app/features/myMenu/data/repositories/getMenu.dart';
 import 'package:my_app/features/myMenu/presentation/pages/MyMenu.dart';
+import 'package:provider/provider.dart';
 
 class Setting extends StatefulWidget {
   String uid;
@@ -10,20 +14,11 @@ class Setting extends StatefulWidget {
 }
 
 class _Setting extends State<Setting> {
-  final List _item = [
-    'Mes Modes de Transport',
-    'Instructions',
-    'Language',
-  ];
-  final List _icon = [
-    'emoji_transportation_rounded',
-    'menu_book_outlined'
-        'language'
-  ];
   String id;
   _Setting({required this.id});
   @override
   Widget build(BuildContext context) {
+    var applang = Provider.of<AppLang>(context).appLocal;
     double heightSize = MediaQuery.of(context).size.height;
     double widthSize = MediaQuery.of(context).size.width;
     return Container(
@@ -48,8 +43,11 @@ class _Setting extends State<Setting> {
               alignment: Alignment.center,
               child: Container(
                 //width: widthSize - (widthSize * 0.26),
-                padding: EdgeInsets.only(
-                    top: 30, bottom: 10, right: widthSize * 0.2),
+                padding: applang == Locale('ar')
+                    ? EdgeInsets.only(
+                        top: 30, bottom: 10, left: widthSize * 0.2)
+                    : EdgeInsets.only(
+                        top: 30, bottom: 10, right: widthSize * 0.2),
                 child: Image.asset(
                   'assets/images/um6pL.png',
                   width: 150,
@@ -66,7 +64,8 @@ class _Setting extends State<Setting> {
                   children: <Widget>[
                     InkWell(
                       child: ListTile(
-                          title: Text("Mes Modes de Transport",
+                          title: Text(
+                              "${AppLocalizations.of(context)!.translate('mymodes')}",
                               style: TextStyle(
                                 color: Color(0xff002466), //(0xff002466),
                                 fontFamily: 'poppins-Light',
@@ -84,7 +83,8 @@ class _Setting extends State<Setting> {
                     ),
                     InkWell(
                         child: ListTile(
-                            title: Text("language",
+                            title: Text(
+                                "${AppLocalizations.of(context)!.translate('language')}",
                                 style: TextStyle(
                                   color: Color(0xff002466), //(0xff002466),
                                   fontFamily: 'poppins-Light',
@@ -93,10 +93,17 @@ class _Setting extends State<Setting> {
                             leading: Icon(Icons.language,
                                 color: Color(
                                     0xff35a687))), //s.black)), //(0xff52B69A))),
-                        onTap: () {}),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AppLanguage(),
+                              ));
+                        }),
                     InkWell(
                         child: ListTile(
-                            title: Text("Instractions",
+                            title: Text(
+                                "${AppLocalizations.of(context)!.translate('instractions')}",
                                 style: TextStyle(
                                   color: Color(0xff002466), //(0xff002466),
                                   fontFamily: 'poppins-Light',
@@ -116,11 +123,14 @@ class _Setting extends State<Setting> {
                   ),
             ),
             InkWell(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
               child: Container(
                 padding: EdgeInsets.only(bottom: 20),
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text("À PROPOS ",
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate('about')}",
                       style: TextStyle(
                         color: Color(0xff002466), //(0xff002466),
                         fontFamily: 'poppins-Light',

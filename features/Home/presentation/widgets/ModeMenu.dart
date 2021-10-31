@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
+import 'package:my_app/features/language/data/appLocalization.dart';
+import 'package:my_app/features/language/data/provider/languageProvider.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/elements.dart';
 
 class TransMenu extends StatefulWidget {
@@ -22,7 +25,6 @@ class _transMenuState extends State<TransMenu> {
 
   @override
   Widget build(BuildContext context) {
-    print(elements);
     return Container(
         padding: EdgeInsets.only(
           top: heightSize * 0.05,
@@ -39,7 +41,8 @@ class _transMenuState extends State<TransMenu> {
                   color: Colors.transparent,
                   child: InkWell(
                     child: ListTile(
-                      title: Text("${elements[index].key}",
+                      title: Text(
+                          "${AppLocalizations.of(context)!.translate(elements[index].key)}",
                           style: TextStyle(
                             color: Color(0xff002466),
                             fontFamily: 'poppins-Light',

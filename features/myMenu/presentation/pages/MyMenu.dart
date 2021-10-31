@@ -5,8 +5,10 @@ import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
 import 'package:my_app/features/Home/presentation/widgets/ModeMenu.dart';
 import 'package:my_app/features/Stepper/data/list.dart';
+import 'package:my_app/features/language/data/appLocalization.dart';
+import 'package:my_app/features/language/data/provider/languageProvider.dart';
 import 'package:my_app/features/myMenu/data/repositories/getMenu.dart';
-import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
+import 'package:my_app/features/myMenu/domain/usecases/ListState.dart';
 import 'package:my_app/features/myMenu/presentation/widgets/MenuList.dart';
 import 'package:my_app/features/Stepper/data/database.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +50,7 @@ class _MyModesState extends State<MyModes> {
   var left = 0.02;
   var right = 0.025;
   double top = 0;
-  String action = "Edit";
+  String action = "edit";
   bool clicked = false;
   List<Elements> choicesList = AllChoices();
   @override
@@ -67,10 +69,9 @@ class _MyModesState extends State<MyModes> {
       setState(() {
         clicked = !clicked;
         if (clicked == true) {
-          action = "Done";
+          action = "done";
         } else {
-          action = "Edit";
-          print("done");
+          action = "edit";
         }
       });
       if (clicked == false) {
@@ -78,6 +79,8 @@ class _MyModesState extends State<MyModes> {
             Provider.of<ListState>(context, listen: false).menuList);
       }
     }
+
+    var appLang = Provider.of<AppLang>(context).appLocal;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -89,13 +92,17 @@ class _MyModesState extends State<MyModes> {
             Align(
                 alignment: Alignment.center,
                 child: Container(
-                  padding: EdgeInsets.only(right: 29),
+                  padding: appLang == Locale('ar')
+                      ? EdgeInsets.only(left: 29)
+                      : EdgeInsets.only(right: 29),
                   child: Material(
                     child: InkWell(
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
                       hoverColor: Colors.transparent,
                       child: Text(
                         //TODO: if clicked change Edit To Done & a boolean true if clicked
-                        action,
+                        '${AppLocalizations.of(context)!.translate(action)}',
                         style:
                             TextStyle(color: Color(0xff35A687), fontSize: 20),
                       ),
@@ -135,7 +142,8 @@ class _MyModesState extends State<MyModes> {
               //  padding: EdgeInsets.only(top: heightSize * 0.01),
               child: Align(
                   alignment: Alignment.center,
-                  child: Text("Mes Modes de Transport",
+                  child: Text(
+                      "${AppLocalizations.of(context)!.translate('mymodes')}",
                       style: TextStyle(
                         color: Color(0xff002466),
                         fontFamily: 'poppins-Light',

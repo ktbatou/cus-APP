@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
-import '../../../map/presentation/widgets/map.dart';
+import 'package:intl/intl.dart';
+import 'package:my_app/features/language/data/appLocalization.dart';
+import 'package:my_app/features/language/data/provider/languageProvider.dart';
+import 'package:my_app/features/language/presentation/pages/language.dart';
+import 'package:my_app/features/map/presentation/widgets/map.dart';
+import 'package:my_app/features/map/presentation/widgets/mapWidget.dart';
+import 'package:provider/provider.dart';
 import '../../../../core/elements.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:glassmorphism/glassmorphism.dart';
-
 import '../data/repositories/dataGetter.dart';
 
-class Example extends StatefulWidget {
+import 'package:flutter_localizations/flutter_localizations.dart';
+
+class Home extends StatefulWidget {
   final zoomDraw;
 
   String uid;
 
-  Example(this.uid, this.zoomDraw);
+  Home(this.uid, this.zoomDraw);
   @override
-  State<StatefulWidget> createState() => ExamplePage(uid: uid, draw: zoomDraw);
+  State<StatefulWidget> createState() => HomeState(uid: uid, draw: zoomDraw);
 }
 
-class ExamplePage extends State<StatefulWidget> {
+class HomeState extends State<StatefulWidget> {
   String? uid;
   String choice = "Vous n'avez pas encore choisir de mode!";
-  String button = "Choisir un mode";
+  String button = "chooseMode";
   double imageSize = 80;
   double iconSize = 40;
   double bar = 80;
@@ -27,10 +34,11 @@ class ExamplePage extends State<StatefulWidget> {
   double size = 15;
   IconData? icon;
   final draw;
-  ExamplePage({this.uid, this.draw});
+  HomeState({this.uid, this.draw});
 
   @override
   Widget build(BuildContext context) {
+    var applang = Provider.of<AppLang>(context).appLocal;
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
     if (MediaQuery.of(context).size.width > 600 &&
@@ -65,7 +73,6 @@ class ExamplePage extends State<StatefulWidget> {
             );
           }),
         ),
-        //drawer: Drawer(child: Settings()),
         body: Container(
           margin: EdgeInsets.only(
             bottom: heightSize * 0.1,
@@ -83,8 +90,8 @@ class ExamplePage extends State<StatefulWidget> {
                     child: Container(
                       child: Text(
                           (icon != null)
-                              ? "Mode actuel :      $choice"
-                              : "$choice",
+                              ? "${AppLocalizations.of(context)!.translate('modeMsgB')}      ${AppLocalizations.of(context)!.translate(choice)}"
+                              : "${AppLocalizations.of(context)!.translate('modeMsgA')}", //"$choice",
                           style: TextStyle(
                             color: Color(0xff002466),
                             fontFamily: 'poppins-Light',
@@ -95,7 +102,9 @@ class ExamplePage extends State<StatefulWidget> {
                   Container(
                       child: (icon != null)
                           ? Padding(
-                              padding: EdgeInsets.only(left: 20),
+                              padding: applang == Locale('ar')
+                                  ? EdgeInsets.only(right: 20)
+                                  : EdgeInsets.only(left: 20),
                               child: Icon(icon, color: Color(0xff35a687)))
                           : null)
                 ]),
@@ -103,7 +112,7 @@ class ExamplePage extends State<StatefulWidget> {
                   color: Color(0xff002466),
                   height: 0.5,
                 ),
-                // MapPage(heightSize, widthSize),
+                MapWidget(heightSize, widthSize),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -111,27 +120,30 @@ class ExamplePage extends State<StatefulWidget> {
           onVerticalDragUpdate: DefaultBottomBarController.of(context).onDrag,
           onVerticalDragEnd: DefaultBottomBarController.of(context).onDragEnd,
           child: FloatingActionButton.extended(
-            backgroundColor: Color(0xff35a687),
-            isExtended: true,
-            label: AnimatedBuilder(
-              animation: DefaultBottomBarController.of(context).state,
-              builder: (context, child) => Container(
-                width: widthSize * 0.80,
-                height: heightSize * 0.05,
-                child: Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    "$button",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontFamily: 'poppins-Light',
-                        fontSize: 16),
+              backgroundColor: Color(0xff35a687),
+              isExtended: true,
+              label: AnimatedBuilder(
+                animation: DefaultBottomBarController.of(context).state,
+                builder: (context, child) => Container(
+                  width: widthSize * 0.80,
+                  height: heightSize * 0.05,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      "${AppLocalizations.of(context)!.translate(button)}",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'poppins-Light',
+                          fontSize: 16),
+                    ),
                   ),
                 ),
               ),
-            ),
-            onPressed: () => DefaultBottomBarController.of(context).swap(),
-          ),
+              onPressed: () {
+                setState(() {
+                  DefaultBottomBarController.of(context).swap();
+                });
+              }),
         ),
         bottomNavigationBar: BottomExpandableAppBar(
             expandedHeight: heightSize * 0.5,
@@ -172,7 +184,7 @@ class ExamplePage extends State<StatefulWidget> {
                   stateChnage: (int index, List<Elements> elements) {
                     setState(() {
                       size = 17;
-                      button = "Changer de mode";
+                      button = "changeMode";
                       choice = elements[index].key;
                       icon = elements[index].icon;
                       DefaultBottomBarController.of(context).swap();

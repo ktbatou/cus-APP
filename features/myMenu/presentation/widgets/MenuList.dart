@@ -3,7 +3,9 @@ import 'package:my_app/core/allChoices.dart';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/Stepper/data/database.dart';
 import 'package:my_app/features/Stepper/data/list.dart';
-import 'package:my_app/features/myMenu/presentation/state/ListState.dart';
+import 'package:my_app/features/language/data/appLocalization.dart';
+import 'package:my_app/features/language/data/provider/languageProvider.dart';
+import 'package:my_app/features/myMenu/domain/usecases/ListState.dart';
 import 'package:provider/provider.dart';
 
 class MenuList extends StatefulWidget {
@@ -19,7 +21,6 @@ class MenuList extends StatefulWidget {
 
   @override
   _listState createState() {
-    print("clicked from state: $clicked");
     return _listState(heightSize: heightSize, widthSize: widthSize, uid: id);
   }
 }
@@ -36,13 +37,11 @@ class _listState extends State<MenuList> {
   @override
   void initState() {
     super.initState();
-    print("clicked from initState: $clicked");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("clicked: ${widget.clicked}");
-
+    var appLang = Provider.of<AppLang>(context).fetchLocale();
     return Container(
       padding: EdgeInsets.only(
         top: heightSize * 0.03,
@@ -62,7 +61,7 @@ class _listState extends State<MenuList> {
                   padding: EdgeInsets.only(left: widthSize * 0.02),
                   child: ListTile(
                     title: Text(
-                        "${(context.watch<ListState>().menuList[index].key)}",
+                        "${AppLocalizations.of(context)!.translate(context.watch<ListState>().menuList[index].key)}",
                         style: TextStyle(
                           color: Color(0xff002466),
                           fontFamily: 'poppins-Light',
@@ -89,6 +88,8 @@ class _listState extends State<MenuList> {
                                 },
                               )
                             : IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                                 color: Colors.blue,
                                 icon: Icon(Icons.add),
                                 onPressed: () {

@@ -7,15 +7,15 @@ import 'package:my_app/features/map/presentation/widgets/map.dart';
 import 'package:flutter/material.dart';
 
 Map icons = {
-  'Moto': Icons.motorcycle_outlined,
-  'Voiture': Icons.directions_car,
-  'Velo': Icons.directions_bike_outlined,
-  'Bus': Icons.directions_bus_filled_outlined,
-  'MiniBus': Icons.directions_bus_filled,
-  'Courire': Icons.directions_run_sharp,
-  'Marcher': Icons.directions_walk_outlined,
-  'Tram': Icons.tram_outlined,
-  'Train': Icons.directions_railway
+  'moto': Icons.motorcycle_outlined,
+  'voiture': Icons.directions_car,
+  'velo': Icons.directions_bike_outlined,
+  'bus': Icons.directions_bus_filled_outlined,
+  'miniBus': Icons.directions_bus_filled,
+  'courire': Icons.directions_run_sharp,
+  'marcher': Icons.directions_walk_outlined,
+  'tram': Icons.tram_outlined,
+  'train': Icons.directions_railway
 };
 
 List<Elements> getList(List<String> choices) {

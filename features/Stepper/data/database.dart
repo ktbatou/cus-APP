@@ -4,6 +4,8 @@ import 'dart:async';
 import 'package:my_app/core/elements.dart';
 import 'package:my_app/features/Home/presentation/data/repositories/Converter.dart';
 
+
+
 class UserDatabase {
   final String uid;
   UserDatabase(this.uid);
@@ -20,7 +22,6 @@ class UserDatabase {
     final selectedChoices =
         selected.where((choice) => choice.selected == true).toList();
     List<String> newList = selectedChoices.map((e) => e.key).toList();
-    print("update the data with: $newList");
 
     return await firestoreInstance.doc(uid).set({
       "choices": FieldValue.arrayUnion(newList),
