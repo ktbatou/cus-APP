@@ -5,7 +5,6 @@ class AppLang extends ChangeNotifier {
   Locale _appLocale = Locale('fr');
 
   fetchLocale() async {
-    print("thsi is first _appLocal $_appLocale");
     var prefs = await SharedPreferences.getInstance();
     if (prefs.getString('language_code') == null) {
       _appLocale = Locale('fr');

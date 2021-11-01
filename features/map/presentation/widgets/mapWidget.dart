@@ -7,17 +7,19 @@ import 'dart:async';
 class MapWidget extends StatefulWidget {
   double width;
   double height;
-  MapWidget(this.height, this.width);
+  double heightMap;
+  MapWidget(this.height, this.width, this.heightMap);
 
   @override
-  _MapWidgetState createState() => _MapWidgetState(height, width);
+  _MapWidgetState createState() => _MapWidgetState(height, width, heightMap);
 }
 
 class _MapWidgetState extends State<MapWidget> {
   double widSize;
   double heiSize;
+  double heightMap;
 
-  _MapWidgetState(this.heiSize, this.widSize);
+  _MapWidgetState(this.heiSize, this.widSize, this.heightMap);
   // GoogleMapController? _controller;
 
   Completer<GoogleMapController> _controller = Completer();
@@ -25,6 +27,10 @@ class _MapWidgetState extends State<MapWidget> {
 
   @override
   Widget build(BuildContext context) {
+    heiSize = widget.height;
+    widSize = widget.width;
+    heightMap = widget.heightMap;
+
     return Consumer<LocationProvider>(
       builder: (context, loc, _) {
         if (loc.location != null) {
@@ -41,9 +47,9 @@ class _MapWidgetState extends State<MapWidget> {
                 ],
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              margin: EdgeInsets.only(bottom: 10),
+              margin: EdgeInsets.only(bottom: 15),
               width: widSize * 0.90,
-              height: heiSize * 0.70,
+              height: heiSize * heightMap,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 child: GoogleMap(

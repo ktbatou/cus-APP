@@ -18,12 +18,10 @@ class ZoomDrawState extends State<StatefulWidget> {
   String uid;
   ZoomDrawState(this.uid);
   @override
- 
-
   @override
   Widget build(BuildContext context) {
     var local = Provider.of<AppLang>(context).appLocal;
-    print(local);
+
     final _drawerController = ZoomDrawerController();
     return Scaffold(
         body: ZoomDrawer(

@@ -31,7 +31,7 @@ class _AppLanguageState extends State<AppLanguage> {
         local: "fr"),
     IconLangue(
         language: "arabic",
-        img: "assets/images/ar.png",
+        img: "assets/images/ar2.png",
         choosen: false,
         local: "ar"),
   ];
@@ -145,34 +145,42 @@ class _AppLanguageState extends State<AppLanguage> {
                                 ),
                                 child: Row(
                                   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  // mainAxisAlignment:
+                                  //  MainAxisAlignment.spaceAround,
                                   children: [
-                                    Container(
-                                      padding: appLang == Locale('ar')
-                                          ? EdgeInsets.only(
-                                              right: WidthtSize * 0.03)
-                                          : EdgeInsets.only(
-                                              left: WidthtSize * 0.03),
+                                    Expanded(
                                       child: Align(
-                                        alignment: Alignment.center,
-                                        child: Image.asset(
-                                          LangIcon[index].img,
-                                          width: WidthtSize * 0.07,
-                                          height: WidthtSize * 0.07,
+                                        alignment: Alignment.centerLeft,
+                                        child: Container(
+                                          /*  padding: appLang == Locale('ar')
+                                                ? EdgeInsets.only(
+                                                    right: WidthtSize * 0.03)
+                                                : EdgeInsets.only(
+                                                    left: WidthtSize * 0.03),*/
+                                          child: Align(
+                                            alignment: Alignment.center,
+                                            child: Image.asset(
+                                              LangIcon[index].img,
+                                              width: WidthtSize * 0.07,
+                                              height: WidthtSize * 0.07,
+                                            ),
+                                          ),
                                         ),
                                       ),
                                     ),
-                                    Container(
-                                        padding: appLang == Locale('ar')
-                                            ? EdgeInsets.only(
-                                                right: WidthtSize * 0.2)
-                                            : EdgeInsets.only(
-                                                left: WidthtSize * 0.2),
-                                        //   EdgeInsets.only(top: heightSize * 0.01),
-                                        child: Align(
-                                            alignment: Alignment.center,
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Container(
+                                            /*  padding: appLang == Locale('ar')
+                                                  ? EdgeInsets.only(
+                                                      right: WidthtSize * 0.2)
+                                                  : EdgeInsets.only(
+                                                      left: WidthtSize * 0.2),*/
+                                            //   EdgeInsets.only(top: heightSize * 0.01),
                                             child: Text(
                                                 "${AppLocalizations.of(context)!.translate(LangIcon[index].language)}",
+                                                textAlign: TextAlign.center,
                                                 style: TextStyle(
                                                   color: Locale(LangIcon[index]
                                                               .local) ==
@@ -181,7 +189,10 @@ class _AppLanguageState extends State<AppLanguage> {
                                                       : Colors.black,
                                                   fontFamily: 'poppins-Light',
                                                   fontSize: 18,
-                                                )))),
+                                                ))),
+                                      ),
+                                    ),
+                                    Spacer(),
                                   ],
                                 ),
                               ),

@@ -23,6 +23,8 @@ class MyModes extends StatefulWidget {
 
 class _MyModesState extends State<MyModes> {
   String uid;
+  Map<String, dynamic>? data;
+  List<Elements>? choices;
 
   @override
   void initState() {
@@ -31,17 +33,17 @@ class _MyModesState extends State<MyModes> {
   }
 
   void initData() async {
-    Map<String, dynamic>? data = await FirebaseFirestore.instance
+    data = await FirebaseFirestore.instance
         .collection('modeOfTrans')
         .doc(uid)
         .get()
         .then((value) => value.data());
 
     if (data != null) {
-      List<Elements> choices = converter(data['choices']);
-      choices = mergedList(choices);
+      choices = converter(data!['choices']);
+      choices = mergedList(choices!);
       WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Provider.of<ListState>(context, listen: false).addToMenuList(choices);
+        Provider.of<ListState>(context, listen: false).addToMenuList(choices!);
       });
     }
   }
@@ -149,6 +151,19 @@ class _MyModesState extends State<MyModes> {
                         fontFamily: 'poppins-Light',
                         fontSize: 20,
                       )))),
+          /* choices == null
+              ? Expanded(
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        padding: EdgeInsets.only(top: 30),
+                        child: CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              Color(0xff52B69A)),
+                        ),
+                      )),
+                )
+              :*/
           Expanded(
             child: MenuList(
               heightSize: heightSize,
@@ -156,7 +171,7 @@ class _MyModesState extends State<MyModes> {
               clicked: clicked,
               id: uid,
             ),
-          ),
+          )
         ],
       ),
     );

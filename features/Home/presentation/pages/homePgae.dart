@@ -32,32 +32,46 @@ class HomeState extends State<StatefulWidget> {
   double bar = 80;
   double pad = 20;
   double size = 15;
+  double header = 0.07;
+  double heightMap = 0.70;
   IconData? icon;
   final draw;
   HomeState({this.uid, this.draw});
+
+  void responsive() {
+    setState(() {});
+  }
+
+  void original() {}
 
   @override
   Widget build(BuildContext context) {
     var applang = Provider.of<AppLang>(context).appLocal;
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
-    if (MediaQuery.of(context).size.width > 600 &&
-        MediaQuery.of(context).size.height > 500) {
-      imageSize = 100;
-      iconSize = 60;
-      bar = 100;
-      pad = 35;
-    } else {
-      imageSize = 65;
-      iconSize = 50;
-      bar = 80;
-      pad = 10;
-    }
+    if (MediaQuery.of(context).size.width > 600) {
+      setState(() {
+        imageSize = 100;
+        iconSize = 60;
+        bar = 100;
+        pad = 35;
+        header = 0.14;
+        heightMap = 0.55;
+      });
+    } else
+      setState(() {
+        imageSize = 65;
+        iconSize = 50;
+        bar = 80;
+        pad = 10;
+        header = 0.07;
+        heightMap = 0.70;
+      });
     return Scaffold(
         backgroundColor: Colors.white,
         extendBody: true,
         appBar: AppBar(
-          toolbarHeight: heightSize * 0.07,
+          toolbarHeight: heightSize * header,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: Builder(builder: (context) {
@@ -112,7 +126,7 @@ class HomeState extends State<StatefulWidget> {
                   color: Color(0xff002466),
                   height: 0.5,
                 ),
-                MapWidget(heightSize, widthSize),
+                MapWidget(heightSize, widthSize, heightMap),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
