@@ -39,13 +39,11 @@ class _MyModesState extends State<MyModes> {
         .get()
         .then((value) => value.data());
 
-    if (data != null) {
-      choices = converter(data!['choices']);
-      choices = mergedList(choices!);
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        Provider.of<ListState>(context, listen: false).addToMenuList(choices!);
-      });
-    }
+    choices = converter(data!['choices']);
+    choices = mergedList(choices!);
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      Provider.of<ListState>(context, listen: false).addToMenuList(choices!);
+    });
   }
 
   _MyModesState({required this.uid});

@@ -35,7 +35,7 @@ class MapPageState extends State<MapPage> {
   void initState() {
     super.initState();
 
-   // Provider.of<LocationProvider>(context, listen: false).initialization();
+    // Provider.of<LocationProvider>(context, listen: false).initialization();
   }
 
   /*location.onLocationChanged.listen((LocationData cLoc) {
@@ -107,6 +107,9 @@ class MapPageState extends State<MapPage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 child: GoogleMap(
+                  zoomControlsEnabled: true,
+                  zoomGesturesEnabled: true,
+                  scrollGesturesEnabled: true,
                   myLocationButtonEnabled: true,
                   myLocationEnabled: true,
                   tiltGesturesEnabled: true,
@@ -121,7 +124,7 @@ class MapPageState extends State<MapPage> {
                   onMapCreated: (GoogleMapController controller) {
                     _controller.complete(controller);
 
-                    void showPinsOnMap() {
+                    /*  void showPinsOnMap() {
                       // get a LatLng for the source location
                       // from the LocationData currentLocation object
                       setState(() {
@@ -137,7 +140,7 @@ class MapPageState extends State<MapPage> {
                       });
                     }
 
-                    showPinsOnMap();
+                    showPinsOnMap();*/
                   },
                 ),
               ),

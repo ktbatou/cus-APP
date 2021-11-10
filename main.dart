@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:my_app/features/Home/presentation/pages/ZoomDrawer.dart';
 import 'package:my_app/features/language/data/appLocalization.dart';
@@ -10,11 +11,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'features/Stepper/data/auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'features/language/data/provider/languageProvider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AppLang appLangue = AppLang();
+  await appLangue.fetchLocale();
 
   runApp(
     MultiProvider(
@@ -23,7 +25,7 @@ Future<void> main() async {
         ChangeNotifierProvider(
           create: (context) => LocationProvider(),
         ),
-        ChangeNotifierProvider(create: (context) => AppLang()),
+        ChangeNotifierProvider(create: (context) => appLangue),
       ],
       child: App(),
     ),
@@ -40,8 +42,6 @@ class MyApp extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    var localapp = Provider.of<AppLang>(context).fetchLocale();
-
     return FutureBuilder(
         // Replace the 3 second delay with your initialization code:
         future: Future.delayed(Duration(seconds: 3)),
@@ -94,10 +94,23 @@ class MyApp extends State<App> {
 
                     /// other way there is no user logged.
                     else {
-                      return MaterialApp(
-                        debugShowCheckedModeBanner: false,
-                        home: Scaffold(body: new_user()),
-                      );
+                      return Consumer<AppLang>(builder: (context, model, _) {
+                        return MaterialApp(
+                          locale: model.appLocal,
+                          supportedLocales: [
+                            Locale('en', ''),
+                            Locale('fr', ''),
+                            Locale('ar', '')
+                          ],
+                          localizationsDelegates: [
+                            AppLocalizations.delegate,
+                            GlobalMaterialLocalizations.delegate,
+                            GlobalWidgetsLocalizations.delegate,
+                          ],
+                          debugShowCheckedModeBanner: false,
+                          home: Scaffold(body: new_user()),
+                        );
+                      });
                     }
                   }
 

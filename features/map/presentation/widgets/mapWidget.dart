@@ -20,10 +20,20 @@ class _MapWidgetState extends State<MapWidget> {
   double heightMap;
 
   _MapWidgetState(this.heiSize, this.widSize, this.heightMap);
-  // GoogleMapController? _controller;
 
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController? _controller;
   Marker? _markers;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<LocationProvider>(context, listen: false).initialization();
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    _controller = controller;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,75 +41,58 @@ class _MapWidgetState extends State<MapWidget> {
     widSize = widget.width;
     heightMap = widget.heightMap;
 
-    return Consumer<LocationProvider>(
-      builder: (context, loc, _) {
-        if (loc.location != null) {
-          return Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.blueGrey,
-                      offset: Offset(1.5, 2),
-                      // spreadRadius: 3.0,
-                      blurRadius: 5.5)
-                ],
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
+    return Consumer<LocationProvider>(builder: (context, model, _) {
+      return Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.blueGrey,
+                  offset: Offset(1.5, 2),
+                  blurRadius: 5.5)
+            ],
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          margin: EdgeInsets.only(bottom: 15),
+          width: widSize * 0.90,
+          height: heiSize * heightMap,
+          child: ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+            child: GoogleMap(
+              zoomControlsEnabled: true,
+              scrollGesturesEnabled: true,
+              zoomGesturesEnabled: true,
+              indoorViewEnabled: true,
+              myLocationButtonEnabled: true,
+              myLocationEnabled: true,
+              tiltGesturesEnabled: true,
+              markers: Set<Marker>.of(model.markers
+                  .values), //Set.of((_markers != null) ? [_markers!] : []),
+              mapType: MapType.normal,
+              initialCameraPosition: CameraPosition(
+                target: model.locationPosition,
+                zoom: 16,
               ),
-              margin: EdgeInsets.only(bottom: 15),
-              width: widSize * 0.90,
-              height: heiSize * heightMap,
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                child: GoogleMap(
-                  myLocationButtonEnabled: true,
-                  myLocationEnabled: true,
-                  tiltGesturesEnabled: true,
-                  markers: Set.of((_markers != null) ? [_markers!] : []),
-                  mapType: MapType.normal,
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(34.020882, -6.841650),
-                    zoom: 16,
-                    //   tilt: CAMERA_TILT,
-                    //   bearing: CAMERA_BEARING
-                  ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-
-                    /*  void showPinsOnMap() {
-                      // get a LatLng for the source location
-                      // from the LocationData currentLocation object
-                      setState(() {
-                        var pinPosition = loc.locationPosition;
-                        // get a LatLng out of the LocationData object
-                        // add the initial source location pin
-                        _markers = Marker(
-                          markerId: MarkerId('sourcePin'),
-                          position: pinPosition,
-                          icon: BitmapDescriptor.defaultMarkerWithHue(
-                              BitmapDescriptor.hueRed),
-                        );
-                      });
-                    }
-
-                    showPinsOnMap();*/
-                  },
-                ),
-              ),
+              onMapCreated: (GoogleMapController controller) async {
+                Provider.of<LocationProvider>(context, listen: false)
+                    .setMapController(controller);
+              },
             ),
-          );
-        }
+          ),
+        ),
+      );
+    }
 
-        return Center(
+        /* return Center(
           child: Container(
               padding: EdgeInsets.only(top: 30),
               child: CircularProgressIndicator(
                 valueColor:
                     new AlwaysStoppedAnimation<Color>(Color(0xff52B69A)),
               )),
+        );*/
+
         );
-      },
-    );
   }
 }

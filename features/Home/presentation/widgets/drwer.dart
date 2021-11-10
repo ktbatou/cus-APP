@@ -97,7 +97,7 @@ class _Setting extends State<Setting> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => AppLanguage(),
+                                builder: (context) => AppLanguage(uid: id),
                               ));
                         }),
                     InkWell(

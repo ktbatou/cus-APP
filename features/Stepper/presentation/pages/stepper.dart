@@ -22,6 +22,7 @@ class New extends State<new_user> {
   double bar = 80;
   double pad = 20;
   dynamic result;
+  double buttonHeight = 0.05;
 
   List<Elements> choices = AllChoices();
   int _currentStep = 0;
@@ -30,17 +31,22 @@ class New extends State<new_user> {
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
-    if (MediaQuery.of(context).size.width > 600 &&
-        MediaQuery.of(context).size.height > 500) {
-      imageSize = 100;
-      iconSize = 60;
-      bar = 100;
-      pad = 35;
+    if (MediaQuery.of(context).size.width > 600) {
+      setState(() {
+        imageSize = 100;
+        iconSize = 60;
+        bar = 100;
+        pad = 35;
+        buttonHeight = 0.12;
+      });
     } else {
-      imageSize = 65;
-      iconSize = 40;
-      bar = 80;
-      pad = 10;
+      setState(() {
+        imageSize = 65;
+        iconSize = 40;
+        bar = 80;
+        pad = 10;
+        buttonHeight = 0.05;
+      });
     }
     Color cooler = Color(0xff35a687).withOpacity(0.8);
     return Container(
@@ -77,7 +83,7 @@ class New extends State<new_user> {
                           {VoidCallback? onStepContinue,
                           VoidCallback? onStepCancel}) {
                         return Act(widthSize, heightSize, onStepCancel,
-                            onStepContinue);
+                            onStepContinue, buttonHeight);
                       },
                       steps: <Step>[
                         Step(
@@ -142,7 +148,7 @@ class New extends State<new_user> {
         print('error signing in');
       } else {
         print('sign in ');
-     
+
         // UserDatabase(result.uid).transDoc(["test1"]);
       }
       _currentStep < 2 ? setState(() => _currentStep += 1) : null;

@@ -41,7 +41,6 @@ class _listState extends State<MenuList> {
 
   @override
   Widget build(BuildContext context) {
-    var appLang = Provider.of<AppLang>(context).fetchLocale();
     return Container(
       padding: EdgeInsets.only(
         top: heightSize * 0.03,

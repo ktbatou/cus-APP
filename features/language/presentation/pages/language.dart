@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/features/Home/presentation/pages/homePgae.dart';
 import 'package:my_app/features/Stepper/presentation/pages/stepper.dart';
 import 'package:my_app/features/language/data/appLocalization.dart';
 import 'package:my_app/features/language/data/provider/languageProvider.dart';
 import 'package:my_app/features/language/presentation/widgets/languageObj.dart';
+import 'package:my_app/features/myMenu/presentation/pages/MyMenu.dart';
 import 'package:provider/provider.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 
 class AppLanguage extends StatefulWidget {
+  String uid;
+  AppLanguage({required this.uid});
   @override
-  _AppLanguageState createState() => _AppLanguageState();
+  _AppLanguageState createState() => _AppLanguageState(id: uid);
 }
 
 class _AppLanguageState extends State<AppLanguage> {
+  String id;
+  _AppLanguageState({required this.id});
   var left = 0.02;
   var right = 0.025;
   double top = 0;
@@ -220,6 +226,7 @@ class _AppLanguageState extends State<AppLanguage> {
                                         ),
                                         IconsButton(
                                           onPressed: () {
+                                            Navigator.of(context).pop();
                                             if (LangIcon[index].language ==
                                                 "french") {
                                               Provider.of<AppLang>(context,

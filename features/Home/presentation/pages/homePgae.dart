@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:my_app/features/language/data/appLocalization.dart';
@@ -10,7 +12,7 @@ import '../../../../core/elements.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
 import 'package:glassmorphism/glassmorphism.dart';
 import '../data/repositories/dataGetter.dart';
-
+import 'package:move_to_background/move_to_background.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 class Home extends StatefulWidget {
@@ -74,6 +76,28 @@ class HomeState extends State<StatefulWidget> {
           toolbarHeight: heightSize * header,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          actions: [
+            IconButton(
+              color: Color(0xff35a687),
+              hoverColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: new Icon(Icons.logout),
+              onPressed: () {
+                exit(0);
+              },
+            ),
+            IconButton(
+              color: Color(0xff35a687),
+              hoverColor: Colors.transparent,
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              icon: new Icon(Icons.close_fullscreen_rounded),
+              onPressed: () {
+                MoveToBackground.moveTaskToBack();
+              },
+            ),
+          ],
           leading: Builder(builder: (context) {
             return IconButton(
               color: Color(0xff35a687),
