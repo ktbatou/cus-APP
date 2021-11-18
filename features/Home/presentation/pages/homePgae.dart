@@ -150,7 +150,7 @@ class HomeState extends State<StatefulWidget> {
                   color: Color(0xff002466),
                   height: 0.5,
                 ),
-                MapWidget(heightSize, widthSize, heightMap),
+                MapWidget(heightSize, widthSize, heightMap, uid!),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
