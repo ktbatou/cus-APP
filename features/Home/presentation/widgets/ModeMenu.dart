@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
+import 'package:my_app/features/Home/presentation/data/repositories/currentMode.dart';
 import 'package:my_app/features/language/data/appLocalization.dart';
 import 'package:my_app/features/language/data/provider/languageProvider.dart';
 import 'package:provider/provider.dart';
@@ -9,19 +10,28 @@ class TransMenu extends StatefulWidget {
   final Function changeState;
   var heightSize;
   List<Elements> elems;
-  TransMenu({required this.changeState, required this.elems, this.heightSize});
+  String id;
+  TransMenu(
+      {required this.changeState,
+      required this.elems,
+      this.heightSize,
+      required this.id});
 
   @override
   _transMenuState createState() => _transMenuState(
-      state: changeState, elements: elems, heightSize: heightSize);
+      state: changeState, elements: elems, heightSize: heightSize, id: id);
 }
 
 class _transMenuState extends State<TransMenu> {
   var heightSize;
   List<Elements> elements;
   final Function state;
+  String id;
   _transMenuState(
-      {required this.state, required this.elements, this.heightSize});
+      {required this.state,
+      required this.elements,
+      this.heightSize,
+      required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +63,8 @@ class _transMenuState extends State<TransMenu> {
                         color: Color(0xff35a687), //s.black),
                       ),
                       onTap: () {
+                        //TODO: get the id
+                        registreMode().saveCurrentMode(id, elements[index].key);
                         widget.changeState(index, elements);
                       },
                     ),

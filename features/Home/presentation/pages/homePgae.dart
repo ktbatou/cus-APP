@@ -40,18 +40,12 @@ class HomeState extends State<StatefulWidget> {
   final draw;
   HomeState({this.uid, this.draw});
 
-  void responsive() {
-    setState(() {});
-  }
-
-  void original() {}
-
   @override
   Widget build(BuildContext context) {
     var applang = Provider.of<AppLang>(context).appLocal;
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
-    if (MediaQuery.of(context).size.width > 600) {
+    if (MediaQuery.of(context).size.width >MediaQuery.of(context).size.height) {
       setState(() {
         imageSize = 100;
         iconSize = 60;
@@ -128,7 +122,9 @@ class HomeState extends State<StatefulWidget> {
                     child: Container(
                       child: Text(
                           (icon != null)
-                              ? "${AppLocalizations.of(context)!.translate('modeMsgB')}      ${AppLocalizations.of(context)!.translate(choice)}"
+                              ? ((icon != Icons.transfer_within_a_station)
+                                  ? "${AppLocalizations.of(context)!.translate('modeMsgB')}      ${AppLocalizations.of(context)!.translate(choice)}"
+                                  : "${AppLocalizations.of(context)!.translate(choice)}")
                               : "${AppLocalizations.of(context)!.translate('modeMsgA')}", //"$choice",
                           style: TextStyle(
                             color: Color(0xff002466),
@@ -150,7 +146,8 @@ class HomeState extends State<StatefulWidget> {
                   color: Color(0xff002466),
                   height: 0.5,
                 ),
-                MapWidget(heightSize, widthSize, heightMap, uid!),
+                MapWidget(heightSize, widthSize, heightMap, uid!,
+                    icon != null ? choice : 'no choice'),
               ]),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

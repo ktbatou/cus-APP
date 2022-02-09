@@ -34,10 +34,24 @@ class GetUserData extends StatelessWidget {
           Map<String, dynamic> data =
               snapshot.data!.data() as Map<String, dynamic>;
           List<Elements> choices = converter(data['choices']);
+          //TODO: add the 2 choices
+          //
+
+          choices.addAll([
+            Elements(
+                key: 'activite',
+                icon: Icons.transfer_within_a_station,
+                selected: false),
+            Elements(
+                key: 'transfer',
+                icon: Icons.transfer_within_a_station,
+                selected: false),
+          ]);
           return TransMenu(
             changeState: stateChnage,
             elems: choices,
             heightSize: heightSize,
+            id: documentId,
           );
         }
 

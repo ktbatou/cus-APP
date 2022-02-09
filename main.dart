@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'features/Stepper/data/auth.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'features/language/data/provider/languageProvider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -87,6 +88,22 @@ class MyApp extends State<App> {
                               GlobalMaterialLocalizations.delegate,
                               GlobalWidgetsLocalizations.delegate,
                             ],
+                            builder: (context, widget) =>
+                                ResponsiveWrapper.builder(
+                                  BouncingScrollWrapper.builder(
+                                      context, widget!),
+                                  maxWidth: 1200,
+                                  minWidth: 480,
+                                  defaultScale: true,
+                                  breakpoints: [
+                                    ResponsiveBreakpoint.resize(480,
+                                        name: MOBILE),
+                                    ResponsiveBreakpoint.autoScale(800,
+                                        name: TABLET),
+                                    ResponsiveBreakpoint.resize(1000,
+                                        name: DESKTOP),
+                                  ],
+                                ),
                             debugShowCheckedModeBanner: false,
                             home: ZoomDraw(uid));
                       });

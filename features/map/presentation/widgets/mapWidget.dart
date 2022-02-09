@@ -12,11 +12,12 @@ class MapWidget extends StatefulWidget {
   double height;
   double heightMap;
   String id;
-  MapWidget(this.height, this.width, this.heightMap, this.id);
+  String choice;
+  MapWidget(this.height, this.width, this.heightMap, this.id, this.choice);
 
   @override
   _MapWidgetState createState() =>
-      _MapWidgetState(height, width, heightMap, id);
+      _MapWidgetState(height, width, heightMap, id, choice);
 }
 
 class _MapWidgetState extends State<MapWidget> {
@@ -24,7 +25,9 @@ class _MapWidgetState extends State<MapWidget> {
   double heiSize;
   double heightMap;
   String id;
-  _MapWidgetState(this.heiSize, this.widSize, this.heightMap, this.id);
+  String choice;
+  _MapWidgetState(
+      this.heiSize, this.widSize, this.heightMap, this.id, this.choice);
 
   GoogleMapController? _controller;
   Marker? _markers;
@@ -36,7 +39,7 @@ class _MapWidgetState extends State<MapWidget> {
     Map collector = {};
     Map acceleration = {};
     Provider.of<LocationProvider>(context, listen: false).initialization();
-    Location location =
+   /* Location location =
         Provider.of<LocationProvider>(context, listen: false).location;
     location.onLocationChanged.listen((LocationData currentLocation) async {
       collector.addAll({
@@ -83,7 +86,7 @@ class _MapWidgetState extends State<MapWidget> {
           '${DateTime.now().hour}:${DateTime.now().minute}': collector,
         },
       }
-    }, SetOptions(merge: true));
+    }, SetOptions(merge: true));*/
   }
 
   @override
@@ -91,7 +94,6 @@ class _MapWidgetState extends State<MapWidget> {
     heiSize = widget.height;
     widSize = widget.width;
     heightMap = widget.heightMap;
-
     return Consumer<LocationProvider>(builder: (context, model, _) {
       return Align(
         alignment: Alignment.topCenter,

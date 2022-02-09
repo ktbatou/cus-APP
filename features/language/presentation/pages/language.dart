@@ -57,7 +57,7 @@ class _AppLanguageState extends State<AppLanguage> {
     LangIcon = selectedLang(appLang, LangIcon);
     double heightSize = MediaQuery.of(context).size.height;
     double WidthtSize = MediaQuery.of(context).size.width;
-    if (MediaQuery.of(context).size.width > 600) {
+      if (MediaQuery.of(context).size.width > MediaQuery.of(context).size.height) {
       left = 0.01;
       right = left;
       top = 0.02;

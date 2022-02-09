@@ -31,13 +31,14 @@ class New extends State<new_user> {
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
-    if (MediaQuery.of(context).size.width > 600) {
+    if (MediaQuery.of(context).size.width <
+        MediaQuery.of(context).size.height) {
       setState(() {
         imageSize = 100;
         iconSize = 60;
         bar = 100;
         pad = 35;
-        buttonHeight = 0.12;
+        buttonHeight = 0.07;
       });
     } else {
       setState(() {
