@@ -31,7 +31,7 @@ class New extends State<new_user> {
   Widget build(BuildContext context) {
     double widthSize = MediaQuery.of(context).size.width;
     double heightSize = MediaQuery.of(context).size.height;
-    if (MediaQuery.of(context).size.width <
+    if (MediaQuery.of(context).size.width >
         MediaQuery.of(context).size.height) {
       setState(() {
         imageSize = 100;

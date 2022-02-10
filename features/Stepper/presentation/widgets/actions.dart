@@ -32,41 +32,47 @@ class Actions extends State<Act> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Container(
-            height: heightSize * buttonHeight!,
-            width: widthSize * 0.3,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.black12),
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              ),
-            ),
-            child: TextButton(
-              onPressed: onStepCancel,
-              child: const Text(
-                'Annuler',
-                style: TextStyle(color: Colors.black54),
-              ),
-            ),
+          TextButton(
+            style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
+            onPressed: onStepCancel,
+            child: Container(
+                height: heightSize * buttonHeight!,
+                width: widthSize * 0.3,
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.black12),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Text(
+                    'Annuler',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                )),
           ),
           new Padding(
             padding: new EdgeInsets.all(10),
           ),
-          Container(
-            height: heightSize * buttonHeight!,
-            width: widthSize * 0.3,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(
-                Radius.circular(10.0),
-              ),
-              color: Color(0xff3AB795),
-            ),
-            child: TextButton(
-              onPressed: onStepContinue,
-              child: const Text('Continuer',
-                  style: TextStyle(color: Colors.white)),
-            ),
-          ),
+          TextButton(
+            style: TextButton.styleFrom(splashFactory: NoSplash.splashFactory),
+            onPressed: onStepContinue,
+            child: Container(
+                height: heightSize * buttonHeight!,
+                width: widthSize * 0.3,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                  color: Color(0xff3AB795),
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: const Text('Continuer',
+                      style: TextStyle(color: Colors.white)),
+                )),
+          )
         ],
       ),
     );
